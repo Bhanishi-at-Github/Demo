@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load rest_framework %}
+{% load socialaccount %}
+{% block content %}
+
+      <!--  contact -->
+      <div  class="contact">
+         <div class="container">
+
+            
+
+            <div class="row">
+               <div class="col-md-12">
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="titlepage text_align_center">
+                     <h2>User Profile</h2>
+                  </div>
+               </div>
+               
+               <div class=" col-md-10 offset-md-1">
+                  <form id="request" class="main_form" method="post">
+                    {% csrf_token %}
+
+                     <div class="row">
+                        <div class="col-md-12 ">
+                            <label for="first_name">First Name</label>
+                           <input class="contactus" placeholder={{user.first_name}} type="type" name="first_name"> 
+                        </div>
+                        <div class="col-md-12">
+                            <label for="first_name">Last Name</label>
+                           <input class="contactus" placeholder={{user.last_name}} type="type" name="last_name">                          
+                        </div>
+                        <div class="col-md-12">
+                            <label for="first_name">Username</label>
+                           <input class="contactus" placeholder={{user.username}} type="type" name="username">                          
+                        </div>
+                        <div class="col-md-12">
+                            <label for="date_of_birth">Date of Birth</label>
+                           <input class="contactus" type="date" name={{user.date_of_birth}}>
+                        <div class="col-md-12">
+                            <label for="first_name">Encrypted Email</label>
+                           <div class="contactus p-3"> 
+                                {{user.email}}
+                            </div>
+                            <p>Note: Email will not be changed</p>
+
+                            <h5>To update your email:<a href="{% url 'verify' %}"> Click Here </a></h5>
+
+                        </div>
+
+                        <div class="col-md-12 p-3" >
+                            {% if user.is_authenticated %}
+                            <li><a href="{% url 'delete' %}"><button type="button" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Delete Account</button></a></li>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-12 p-4">
+                           <button class="send_btn" type="submit">Update Profile</button>
+                        </div>
+                        
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end contact -->
+
+{% endblock %}

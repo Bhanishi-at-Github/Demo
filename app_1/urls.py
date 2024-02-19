@@ -1,0 +1,25 @@
+'''
+Home URL Configuration
+
+'''
+
+from django.urls import path
+from .views import index, forget_password, delete
+from .views import RegisterAPI, LoginAPI, VerifyAPI, LogoutAPI
+from .views import DeleteUserAPI, ProfileAPI, PasswordResetAPI
+
+
+urlpatterns = [
+
+    path('', index, name='index'),
+    path('register/', RegisterAPI.as_view(), name='register'),
+    path('login/', LoginAPI.as_view(), name='login'),
+    path('verify', VerifyAPI.as_view(), name='verify'),
+    path('logout/', LogoutAPI.as_view(), name='logout'),
+    path('delete_account/', DeleteUserAPI.as_view(), name='delete'),
+    path('profile/', ProfileAPI.as_view(), name='profile'),
+    path('forget_password/', forget_password, name='forget_password'),
+    path('reset_password/', PasswordResetAPI.as_view(), name='reset_password'),
+    path('deleteuser/', delete, name='deleteuser')
+
+]
