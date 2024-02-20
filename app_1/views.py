@@ -119,7 +119,7 @@ class RegisterAPI(APIView):
 
             return redirect('/verify')
 
-        except User.DoesNotExist as e:
+        except user.DoesNotExist as e:
 
             print(e)
             messages.error(request, "Email not sent")
@@ -181,7 +181,7 @@ class VerifyAPI(APIView):
                         messages.error(request, "Email does not exist")
                         return redirect('/verify')
 
-            except User.is_anonymous as e:
+            except user.is_anonymous as e:
 
                 print(e)
                 messages.error(request, "Something went wrong!")
@@ -235,7 +235,7 @@ class LoginAPI(APIView):
                 print("Trying to login")
                 user = User.objects.get(email=email)
 
-            except User.DoesNotExist as e:
+            except user.DoesNotExist as e:
 
                 print(e)
                 user = None
@@ -261,48 +261,32 @@ class LoginAPI(APIView):
 
                         print("Email: ", show_email)
 
-                        messages.success(request, "Login Successful!",
-                                         {'email': show_email})
+                        messages.success(request, "Login Successful!")
                         return redirect('/')
 
                     messages.error(request, "Not verified")
-                    return redirect('/login')
-
                 messages.error(request, "Invalid password")
-                return redirect('/login')
-
             messages.error(request, "Email does not exist")
-            return redirect('/login')
 
-    def store_email(request, show_email):
-        '''
-            Function to store the email
-        '''
-        print(show_email)
+        return redirect('/login')
 
 
-class LogoutAPI(APIView):
-
+def logoutuser(request):
     '''
-        Class to logout the user
+        Function to logout the user
     '''
+    try:
 
-    def get(self, request):
-        '''
-            Function to logout the user
-        '''
-        try:
+        logout(request)
+        messages.success(request, "You have successfully logged out.")
 
-            logout(request)
-            messages.success(request, "You have successfully logged out.")
+        return redirect('/')
 
-            return redirect('/')
+    except KeyError as e:
 
-        except User.is_anonymous as e:
-
-            print(e)
-            messages.error(request, "You are not logged in")
-            return redirect('login')
+        print(e)
+        messages.error(request, "You are not logged in")
+        return redirect('login')
 
 
 class DeleteUserAPI(APIView):
@@ -310,6 +294,7 @@ class DeleteUserAPI(APIView):
     '''
         Class to delete the user
     '''
+
     model = User
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'clients/delete_user.html'
@@ -336,7 +321,7 @@ def delete(request):
         print("REDIRECTING")
         return redirect('/')
 
-    except User.DoesNotExist as e:
+    except user.DoesNotExist as e:
 
         print(e)
         messages.error(request, "User does not exist")
@@ -380,7 +365,7 @@ class PasswordResetAPI(APIView):
             messages.error(request, "Email does not exist")
             return redirect('/password_reset')
 
-        except User.DoesNotExist as e:
+        except user.DoesNotExist as e:
 
             print(e)
             messages.error(request, "Something went wrong!")
@@ -412,7 +397,7 @@ class ProfileAPI(APIView):
         last_name = request.POST.get('last_name')
         date_of_birth = request.POST.get('date_of_birth')
         username = request.POST.get('username')
-        
+
         # if user wants to update specific field in the profile
         user = User.objects.get(username=request.user)
         user.first_name = first_name
