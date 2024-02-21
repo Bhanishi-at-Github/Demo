@@ -25,12 +25,10 @@ urlpatterns = [
 
     path('profile/', ProfileAPI.as_view(), name='profile'),
 
-    # path('verify_email/' , update_email , name = 'update_email'),
-
     path('forget_password/', forget_password, name='forget_password'),
 
     path('reset_password/', PasswordResetAPI.as_view(), name='reset_password'),
 
-    path('deleteuser/', delete, name='deleteuser')
+    path('deleteuser/', delete, name='deleteuser'),
 
 ]

@@ -4,63 +4,72 @@
 {% load socialaccount %}
 {% block content %}
 
-      <!--  contact -->
-      <div  class="contact">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-12">
-               </div>
-            </div>
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="titlepage text_align_center">
-                     <h2>{{user.first_name}}</h2>
-                  </div>
-               </div>
-               
-               <div class=" col-md-10 offset-md-1">
-                  <form id="request" class="main_form" method="post">
-                    {% csrf_token %}
-
-                     <div class="row">
-                        
-                        <div class="col-md-12 ">
-                            <label for="first_name">First Name</label>
-                           <input class="contactus" placeholder={{user.first_name}} type="text" name="first_name"> 
-                        </div>
-                        <div class="col-md-12">
-                            <label for="last_name">Last Name</label>
-                           <input class="contactus" placeholder={{user.last_name}} type="text" name="last_name">                          
-                        </div>
-                        <div class="col-md-12">
-                            <label for="username">Username</label>
-                           <input class="contactus" placeholder={{user.username}} type="text" name="username">                          
-                        </div>
-                        <div class="col-md-12">
-                           <label for="email">Existing Email</label>
-                          <input class="contactus" placeholder="Enter existing email to update profile" type="email" name="email">                          
-                       </div>
-                        <div class="col-md-12">
-                           <label for="password">Password</label>
-                          <input class="contactus" placeholder="Update Password" type="password" name="password">                          
-                       </div>
-
-                        <div class="col-md-12 p-3" >
-                            {% if user.is_authenticated %}
-                            <li><a href="{% url 'delete' %}"><button type="button" class="btn btn-danger"><i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Delete Account</button></a></li>
-                            {% endif %}
-                        </div>
-
-                        <div class="col-md-12 p-4">
-                           <button class="send_btn" type="submit">Update Profile</button>
-                        </div>
-                        
-                     </div>
-                  </form>
-               </div>
-            </div>
+<!--  contact -->
+<div class="contact">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
          </div>
       </div>
-      <!-- end contact -->
+      <div class="row">
+         <div class="col-md-12">
+            <div class="titlepage text_align_center">
+               <h2>{{user.first_name}}</h2>
+            </div>
+         </div>
+
+         <div class=" col-md-10 offset-md-1">
+            <form id="request" class="main_form" method="post">
+               {% csrf_token %}
+
+               <div class="row">
+
+                  <div class="col-md-12 ">
+                     <label for="first_name">First Name</label>
+                     <input class="contactus" placeholder={{user.first_name}} type="text" name="first_name">
+                  </div>
+                  <div class="col-md-12">
+                     <label for="last_name">Last Name</label>
+                     <input class="contactus" placeholder={{user.last_name}} type="text" name="last_name">
+                  </div>
+                  <div class="col-md-12">
+                     <label for="username">Username</label>
+                     <input class="contactus" placeholder={{user.username}} type="text" name="username">
+                  </div>
+
+                  <div class="col-md-12 p-3 text_align_center">
+
+                     {% if user.is_authenticated %}
+                     <div class="container text_align_center">
+
+                        <div class="container" style="display: flex;
+                            gap: 10px;">
+
+                           <a href="{% url 'delete' %}">
+
+                              <button type="button" class="btn btn-danger">
+                                 <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                 &nbsp;&nbsp;Delete Account
+                              </button>
+                           </a>
+                           <a href="{% url 'reset_password' %}">
+                              <button type="button" class="btn btn-light">
+                                 <i class="fa fa-lock" aria-hidden="true"></i>&nbsp;&nbsp;Change Password</button>
+                           </a>
+                           <button class="btn btn-secondary" type="submit">Update Profile</button>
+
+                        </div>
+                     </div>
+
+                     {% endif %}
+
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- end contact -->
 
 {% endblock %}

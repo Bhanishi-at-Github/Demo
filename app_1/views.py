@@ -40,7 +40,7 @@ def forget_password(request):
         print(email)
         password_reset(email)
         messages.success(request, "Email sent successfully!")
-        return redirect('password_reset')
+        return redirect('/reset_password')
 
     return render(request, 'clients/forget_password.html')
 
@@ -391,26 +391,29 @@ class ProfileAPI(APIView):
             Function to update the profile
         '''
         
-        email = request.POST.get('email')
+        if request.method == 'POST':
 
+            print ("post request")
         
-        user = User.objects.get(username = request.user)
+            user = User.objects.get(username = request.user)
 
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+            print (user)
 
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            username = request.POST.get('username')
+            
+            print ("Details Fetched")
 
-        # if user wants to update specific field in the profile
-        
-        user.first_name = first_name
-        user.last_name = last_name
-        user.username = username
-        
-        print("Saved as User")
-        user.set_password(password)
-        user.save()
-        
-        
-        return redirect('/login')
+            # if user wants to update specific field in the profile
+            
+            user.first_name = first_name
+            user.last_name = last_name
+            user.username = username
+            
+            print("Saved as User")
+            
+            user.save()
+            
+            messages.success(request, "Profile Updates Successfully!")
+            return redirect('/profile')
