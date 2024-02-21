@@ -175,7 +175,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
 # Media files
 
-MEDIA_ROOT = BASE_DIR / 'pictures'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'pictures') 
+# Directory where uploaded media is saved.
+
 MEDIA_URL = '/media/'
 
 # Default primary key field type

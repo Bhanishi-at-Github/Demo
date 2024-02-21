@@ -14,7 +14,7 @@
             <div class="row">
                <div class="col-md-12">
                   <div class="titlepage text_align_center">
-                     <h2>User Profile</h2>
+                     <h2>{{user.first_name}}</h2>
                   </div>
                </div>
                
@@ -23,31 +23,27 @@
                     {% csrf_token %}
 
                      <div class="row">
+                        
                         <div class="col-md-12 ">
                             <label for="first_name">First Name</label>
-                           <input class="contactus" placeholder={{user.first_name}} type="type" name="first_name"> 
+                           <input class="contactus" placeholder={{user.first_name}} type="text" name="first_name"> 
                         </div>
                         <div class="col-md-12">
-                            <label for="first_name">Last Name</label>
-                           <input class="contactus" placeholder={{user.last_name}} type="type" name="last_name">                          
+                            <label for="last_name">Last Name</label>
+                           <input class="contactus" placeholder={{user.last_name}} type="text" name="last_name">                          
                         </div>
                         <div class="col-md-12">
-                            <label for="first_name">Username</label>
-                           <input class="contactus" placeholder={{user.username}} type="type" name="username">                          
+                            <label for="username">Username</label>
+                           <input class="contactus" placeholder={{user.username}} type="text" name="username">                          
                         </div>
                         <div class="col-md-12">
-                            <label for="date_of_birth">Date of Birth</label>
-                           <input class="contactus" type="date" name={{user.date_of_birth}}>
+                           <label for="email">Existing Email</label>
+                          <input class="contactus" placeholder="Enter existing email to update profile" type="email" name="email">                          
+                       </div>
                         <div class="col-md-12">
-                            <label for="first_name">Encrypted Email</label>
-                           <div class="contactus p-3"> 
-                                {{user.email}}
-                            </div>
-                            <p>Note: Email will not be changed</p>
-
-                            <h5>To update your email:<a href="{% url 'verify' %}"> Click Here </a></h5>
-
-                        </div>
+                           <label for="password">Password</label>
+                          <input class="contactus" placeholder="Update Password" type="password" name="password">                          
+                       </div>
 
                         <div class="col-md-12 p-3" >
                             {% if user.is_authenticated %}

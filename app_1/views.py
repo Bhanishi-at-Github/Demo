@@ -22,14 +22,12 @@ def hash_value(value):
 
     return hashlib.sha256(value.encode()).hexdigest()
 
-
 def index(request):
     '''
         Function to render the index page
     '''
 
     return render(request, 'content/index.html')
-
 
 def forget_password(request):
     '''
@@ -46,6 +44,44 @@ def forget_password(request):
 
     return render(request, 'clients/forget_password.html')
 
+def logoutuser(request):
+    '''
+        Function to logout the user
+    '''
+    try:
+
+        logout(request)
+        messages.success(request, "You have successfully logged out.")
+
+        return redirect('/')
+
+    except KeyError as e:
+
+        print(e)
+        messages.error(request, "You are not logged in")
+        return redirect('login')
+
+def delete(request):
+
+    '''
+        Function to delete the user
+    '''
+
+    try:
+
+        user = User.objects.get(username=request.user)
+        print(user)
+        user.delete()
+        print("User deleted")
+        messages.success(request, "User deleted successfully!")
+        print("REDIRECTING")
+        return redirect('/')
+
+    except user.DoesNotExist as e:
+
+        print(e)
+        messages.error(request, "User does not exist")
+        return redirect('/delete_account')
 
 class RegisterAPI(APIView):
 
@@ -170,7 +206,9 @@ class VerifyAPI(APIView):
                         user.save()
                         print(user.is_verified)
                         messages.success(
-                            request, "You have successfully verified.")
+                            request, 
+                            "You have successfully verified."
+                        )
 
                         return redirect('/login')
 
@@ -271,24 +309,6 @@ class LoginAPI(APIView):
         return redirect('/login')
 
 
-def logoutuser(request):
-    '''
-        Function to logout the user
-    '''
-    try:
-
-        logout(request)
-        messages.success(request, "You have successfully logged out.")
-
-        return redirect('/')
-
-    except KeyError as e:
-
-        print(e)
-        messages.error(request, "You are not logged in")
-        return redirect('login')
-
-
 class DeleteUserAPI(APIView):
 
     '''
@@ -304,28 +324,6 @@ class DeleteUserAPI(APIView):
             Function to render the delete user page
         '''
         return render(request, self.template_name)
-
-
-def delete(request):
-    '''
-        Function to delete the user
-    '''
-
-    try:
-
-        user = User.objects.get(username=request.user)
-        print(user)
-        user.delete()
-        print("User deleted")
-        messages.success(request, "User deleted successfully!")
-        print("REDIRECTING")
-        return redirect('/')
-
-    except user.DoesNotExist as e:
-
-        print(e)
-        messages.error(request, "User does not exist")
-        return redirect('/delete_account')
 
 
 class PasswordResetAPI(APIView):
@@ -392,18 +390,27 @@ class ProfileAPI(APIView):
         '''
             Function to update the profile
         '''
+        
+        email = request.POST.get('email')
+
+        
+        user = User.objects.get(username = request.user)
 
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
-        date_of_birth = request.POST.get('date_of_birth')
         username = request.POST.get('username')
+        password = request.POST.get('password')
+
 
         # if user wants to update specific field in the profile
-        user = User.objects.get(username=request.user)
+        
         user.first_name = first_name
         user.last_name = last_name
-        user.date_of_birth = date_of_birth
         user.username = username
+        
+        print("Saved as User")
+        user.set_password(password)
         user.save()
-        return redirect('/profile')
-    
+        
+        
+        return redirect('/login')

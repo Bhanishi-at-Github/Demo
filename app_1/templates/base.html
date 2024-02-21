@@ -63,11 +63,9 @@
                         {% if is_login %}
                         <li><a href="{% url 'register' %}"><button type="button" class="btn btn-success">Register</button></a></li>
                         {% endif %}
-
-                        {% if user.is_logout %}
+                        
                         <li><a href="{% url 'register' %}"><button type="button" class="btn btn-success">Register</button></a></li>
-                        {% endif %}
-
+                        
                         {% if user.is_authenticated %}
                         <li><a href="{% url 'logout' %}"><button type="button" class="btn btn-dark">Logout</button></a></li>
                         {% else %}

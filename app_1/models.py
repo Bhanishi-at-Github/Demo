@@ -53,11 +53,6 @@ class User(AbstractUser):
         blank=True
     )
 
-    photo = models.ImageField(
-        default='images/user_icon.png',
-        upload_to='pictures/',
-    )
-
     is_verified = models.BooleanField(default=False)
 
     # Replacing the username field with email field
@@ -70,3 +65,4 @@ class User(AbstractUser):
     def __str__(self):
 
         return str(self.username)
+
