@@ -5,37 +5,52 @@
 
 
 {% block content %}
-         
-      <!--  contact -->
-      <div  class="contact">
-         <div class="container">
-            
-            <div class="row">
-               <div class="col-md-12">
-               </div>
-            </div>
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="titlepage text_align_center">
-                     <h2>Delete Account</h2>
-                  </div>
-               </div>
-               <div class="container text_align_center">
-                <div class=" col-md-10 offset-md-1 text_align_center">
-                    
-                     <div class="row text_align_center">
-                        <h4 class="text_align_center">Are you sure you want to delete your account?</h4>
-                            <div class="col-md-12 p-3">
-                
-                                <a href="{% url 'deleteuser' %}"><button type="button" class="btn btn-danger p-3" ><i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Delete Account</button></a>
-                            </div>
-                     </div>
-                  
-               </div>
-            </div>
-            </div>
+
+<!--  contact -->
+<div class="contact">
+   <div class="container">
+
+      <div class="row">
+         <div class="col-md-12">
          </div>
       </div>
-      <!-- end contact -->
+      <div class="row">
+         <div class="col-md-12">
+            <div class="titlepage text_align_center">
+               <h2>Delete Account</h2>
+            </div>
+         </div>
+         <div class="container ">
+            <div class=" col-md-10 offset-md-1">
+
+               <div class="row">
+                  <h2 class="col-md-12 p-3">Are you sure you want to delete your account?</h2>
+                  <br>
+                  <br>
+                  <div class="row text_align_center" style="display: flex;
+                            gap: 20px; ">
+
+                     <a href="{% url 'delete' %}">
+
+                        <button type="button" class="btn btn-warning p-3">
+                           <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                           &nbsp;&nbsp;Delete Account
+                        </button>
+                     </a>
+                     <a href="{% url 'profile' %}">
+                        <button type="button" class="btn btn-info p-3">
+                           <i class="fa fa-arrow" aria-hidden="true"></i>&nbsp;&nbsp;Back to account</button>
+                     </a>
+
+                  </div>
+               </div>
+            </div>
+
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+<!-- end contact -->
 
 {% endblock %}

@@ -37,6 +37,10 @@
                      <input class="contactus" placeholder={{user.username}} type="text" name="username">
                   </div>
 
+                  <div class="col-md-12">
+                     <label for="username">Email</label>
+                     <input class="contactus" placeholder={{user.email}} type="text" name="username">
+                  </div>
                   <div class="col-md-12 p-3 text_align_center">
 
                      {% if user.is_authenticated %}
@@ -47,16 +51,16 @@
 
                            <a href="{% url 'delete' %}">
 
-                              <button type="button" class="btn btn-danger">
+                              <button type="button" class="btn btn-warning p-3">
                                  <i class="fa fa-minus-circle" aria-hidden="true"></i>
                                  &nbsp;&nbsp;Delete Account
                               </button>
                            </a>
                            <a href="{% url 'reset_password' %}">
-                              <button type="button" class="btn btn-light">
+                              <button type="button" class="btn btn-info p-3">
                                  <i class="fa fa-lock" aria-hidden="true"></i>&nbsp;&nbsp;Change Password</button>
                            </a>
-                           <button class="btn btn-secondary" type="submit">Update Profile</button>
+                           <button class="btn btn-success p-3" type="submit">Update Profile</button>
 
                         </div>
                      </div>

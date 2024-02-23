@@ -13,14 +13,8 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from .email import verify_email, welcome_email, password_reset
 from .serializer import UserSerializer
 from .models import User
-
-
-def hash_value(value):
-    '''
-        Function to hash the value
-    '''
-
-    return hashlib.sha256(value.encode()).hexdigest()
+from cert_project import settings
+from .encrypt import encrypt, decrypt
 
 def index(request):
     '''
@@ -128,7 +122,7 @@ class RegisterAPI(APIView):
         verify_email(email, rid)
 
         # Encrypting the email
-        email = hash_value(email)
+        email = encrypt(email, settings.FIELD_ENCRYPTION_KEY)
 
         print("User Encrypted Email: ", email)
 
@@ -188,7 +182,7 @@ class VerifyAPI(APIView):
             email = request.POST.get('email')
             otp = request.POST.get('otp')
 
-            email = hash_value(email)
+            email = encrypt(email, settings.FIELD_ENCRYPTION_KEY)
 
             print(email)
 
@@ -264,7 +258,7 @@ class LoginAPI(APIView):
             show_email = email
             print("Email: ", show_email)
 
-            email = hash_value(email)
+            email = encrypt(email, settings.FIELD_ENCRYPTION_KEY)
 
             print("Email: ", email)
 
@@ -304,6 +298,7 @@ class LoginAPI(APIView):
 
                     messages.error(request, "Not verified")
                 messages.error(request, "Invalid password")
+            
             messages.error(request, "Email does not exist")
 
         return redirect('/login')
@@ -351,7 +346,7 @@ class PasswordResetAPI(APIView):
         email = request.POST.get('email')
 
         try:
-            email = hash_value(email)
+            email = encrypt(email, settings.FIELD_ENCRYPTION_KEY)
             user = User.objects.get(email=email)
 
             if user is not None:
@@ -402,6 +397,9 @@ class ProfileAPI(APIView):
             first_name = request.POST.get('first_name')
             last_name = request.POST.get('last_name')
             username = request.POST.get('username')
+            email = request.POST.get('email')
+
+            email = encrypt(email, settings.FIELD_ENCRYPTION_KEY)
             
             print ("Details Fetched")
 
@@ -414,6 +412,10 @@ class ProfileAPI(APIView):
             print("Saved as User")
             
             user.save()
+
+            user = User.objects.get(email = email)
+
+            user.email = decrypt(user.email, settings.FIELD_ENCRYPTION_KEY)
             
             messages.success(request, "Profile Updates Successfully!")
             return redirect('/profile')

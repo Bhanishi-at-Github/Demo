@@ -47,6 +47,7 @@ EXTERNAL_APPS = [
     'rest_framework',
     'encrypted_model_fields',
     'allauth',
+    'cryptography',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
@@ -195,5 +196,5 @@ EMAIL_HOST_USER = 'bhanishi.certainty@gmail.com'
 EMAIL_HOST_PASSWORD = 'vudd cqia hwfu trak'
 
 
-LOGIN_REDIRECT_URL = 'index'
-LOGOUT_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
