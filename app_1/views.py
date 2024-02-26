@@ -1,8 +1,7 @@
 '''
     Views for the home app
-
 '''
-import hashlib
+
 import random
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -155,7 +154,6 @@ class RegisterAPI(APIView):
             messages.error(request, "Email not sent")
             return redirect('/register')
 
-
 class VerifyAPI(APIView):
 
     '''
@@ -220,7 +218,6 @@ class VerifyAPI(APIView):
                 return redirect('/verify')
 
         return redirect('/verify')
-
 
 class LoginAPI(APIView):
 
@@ -303,7 +300,6 @@ class LoginAPI(APIView):
 
         return redirect('/login')
 
-
 class DeleteUserAPI(APIView):
 
     '''
@@ -319,7 +315,6 @@ class DeleteUserAPI(APIView):
             Function to render the delete user page
         '''
         return render(request, self.template_name)
-
 
 class PasswordResetAPI(APIView):
 
@@ -364,58 +359,61 @@ class PasswordResetAPI(APIView):
             messages.error(request, "Something went wrong!")
             return redirect('/password_reset')
 
-
 class ProfileAPI(APIView):
 
     '''
         Class to render the profile page
     '''
 
+    model = User
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'clients/profile.html'
+    
 
     def get(self, request):
         '''
             Function to render the profile page
         '''
+        user = User.objects.get(username = request.user)
+        user.email = decrypt(user.email, settings.FIELD_ENCRYPTION_KEY)
 
-        return render(request, self.template_name)
+        return render(request, self.template_name, context = {'decrypted': user.email})
 
     def post(self, request):
         '''
             Function to update the profile
         '''
+
+        user = User.objects.get(username = request.user)
+        user.email = decrypt(user.email, settings.FIELD_ENCRYPTION_KEY)
+    
         
         if request.method == 'POST':
 
             print ("post request")
         
             user = User.objects.get(username = request.user)
+            decrypt_email = decrypt(user.email, settings.FIELD_ENCRYPTION_KEY)
 
             print (user)
 
             first_name = request.POST.get('first_name')
             last_name = request.POST.get('last_name')
             username = request.POST.get('username')
-            email = request.POST.get('email')
 
             email = encrypt(email, settings.FIELD_ENCRYPTION_KEY)
-            
+
             print ("Details Fetched")
 
-            # if user wants to update specific field in the profile
-            
             user.first_name = first_name
             user.last_name = last_name
             user.username = username
-            
+
             print("Saved as User")
-            
+
             user.save()
 
-            user = User.objects.get(email = email)
-
-            user.email = decrypt(user.email, settings.FIELD_ENCRYPTION_KEY)
-            
             messages.success(request, "Profile Updates Successfully!")
             return redirect('/profile')
+        
+        return redirect('/profile')

@@ -2,7 +2,7 @@
 Email.py file: used to send email to the user
 
 '''
-import hashlib
+
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -10,17 +10,9 @@ from django.conf import settings
 from django.core.mail import send_mail
 
 
-def hash_value(value):
-    '''
-        Function to hash the value
-    '''
-
-    return hashlib.sha256(value.encode()).hexdigest()
-
-
 def verify_email(email, rid):
     '''
-    verify_email function: To send the mail to the user 
+    To send the mail to the user 
     after signup.
 
     '''
