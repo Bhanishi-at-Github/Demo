@@ -8,6 +8,7 @@ from django.contrib.auth.models import AbstractUser
 from app_1.manager import UserManager
 
 
+
 class User(AbstractUser):
 
     '''
@@ -55,6 +56,8 @@ class User(AbstractUser):
 
     is_verified = models.BooleanField(default=False)
 
+    points = models.IntegerField(default=0)
+
     # Replacing the username field with email field
 
     USERNAME_FIELD = 'email'
@@ -66,3 +69,6 @@ class User(AbstractUser):
 
         return str(self.username)
 
+
+
+        

@@ -3,24 +3,31 @@
 '''
 
 import random
-from django.shortcuts import render, redirect
+import json
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
-from .email import verify_email, welcome_email, password_reset
-from .serializer import UserSerializer
-from .models import User
+from app_1.email import verify_email, welcome_email, password_reset
+from app_1.serializer import UserSerializer
+from app_1.models import User
 from cert_project import settings
-from .encrypt import encrypt, decrypt
+from app_1.encrypt import encrypt, decrypt
+from notifs.models import BroadcastNotification
+
+  
 
 def index(request):
     '''
         Function to render the index page
     '''
 
-    return render(request, 'content/index.html')
+    
+    notifications = BroadcastNotification.objects.all()
+    
+    return render(request, 'content/index.html',{'notifications':notifications})
 
 def forget_password(request):
     '''
@@ -136,7 +143,9 @@ class RegisterAPI(APIView):
 
         print("Saved as User: ", email)
         user.set_password(password)
+        user.points =+ 10
         user.save()
+
 
         try:
 
@@ -285,6 +294,10 @@ class LoginAPI(APIView):
 
                         login(request, user,
                               backend='django.contrib.auth.backends.ModelBackend')
+                        user = User.objects.get(points = user.points)
+                        print (user.points)
+                        user.points = user.points + 10
+                        user.save()
 
                         print("Logged in successfully")
 
@@ -393,7 +406,6 @@ class ProfileAPI(APIView):
             print ("post request")
         
             user = User.objects.get(username = request.user)
-            decrypt_email = decrypt(user.email, settings.FIELD_ENCRYPTION_KEY)
 
             print (user)
 
@@ -401,7 +413,7 @@ class ProfileAPI(APIView):
             last_name = request.POST.get('last_name')
             username = request.POST.get('username')
 
-            email = encrypt(email, settings.FIELD_ENCRYPTION_KEY)
+            user = User.objects.get(username = request.user)
 
             print ("Details Fetched")
 
@@ -417,3 +429,4 @@ class ProfileAPI(APIView):
             return redirect('/profile')
         
         return redirect('/profile')
+

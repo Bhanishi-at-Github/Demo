@@ -77,7 +77,7 @@ def password_reset(email):
     '''
 
     my_subject = 'Reset your password'
-    link = "http://127.0.0.1:8000/reset_password/{hash_value(email)}"
+    link = "http://127.0.0.1:8000/reset_password/}"
     message = "Click on the link to reset your password: " + link
     send_mail(
         my_subject,

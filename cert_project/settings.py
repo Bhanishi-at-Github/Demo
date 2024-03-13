@@ -31,27 +31,35 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'django.contrib.admin',
+    
+    # django.contrib.admin
+    
+    'channels',
+    'daphne',
+    'rest_framework',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-]
 
-EXTERNAL_APPS = [
+
     'app_1',
+    'notifs',
+    
     'material',
     'material.admin',
-    'rest_framework',
-    'encrypted_model_fields',
     'allauth',
     'cryptography',
+
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    
 ]
+
+
 
 SITE_ID = 2
 
@@ -74,7 +82,6 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-INSTALLED_APPS += EXTERNAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -106,7 +113,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'cert_project.wsgi.application'
+ASGI_APPLICATION = 'cert_project.asgi.application'
 
+
+# Channels
+
+CHANNEL_LAYERS = {
+    
+    'default': {
+        'BACKEND': "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -198,3 +215,14 @@ EMAIL_HOST_PASSWORD = 'vudd cqia hwfu trak'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+
+# CELERY SETTINGS
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SELERLIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

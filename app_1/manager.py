@@ -13,6 +13,7 @@ class UserManager(BaseUserManager):
         UserManager : to create a user and a superuser.
 
     '''
+
     use_in_migrations = True
 
     def create_user(self, email=None, password=None, **extra_fields):

@@ -24,6 +24,11 @@
 
                <div class="row">
 
+                  <div class="col-md-12">
+                     <label for="username">Email</label>
+                     <p class="contactus p-3" >{{decrypted}} </p>
+                  </div>
+
                   <div class="col-md-12 ">
                      <label for="first_name">First Name</label>
                      <input class="contactus" placeholder={{user.first_name}} type="text" name="first_name">
@@ -37,10 +42,7 @@
                      <input class="contactus" placeholder={{user.username}} type="text" name="username">
                   </div>
 
-                  <div class="col-md-12">
-                     <label for="username">Email</label>
-                     <input class="contactus" placeholder={{decrypted}} type="text" name="username">
-                  </div>
+                  
                   <div class="col-md-12 p-3 text_align_center">
 
                      {% if user.is_authenticated %}
