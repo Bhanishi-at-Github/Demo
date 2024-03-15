@@ -3,31 +3,26 @@
 '''
 
 import random
-import json
-from django.shortcuts import render, redirect, HttpResponse
+
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout
-from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
-from app_1.email import verify_email, welcome_email, password_reset
-from app_1.serializer import UserSerializer
-from app_1.models import User
-from cert_project import settings
-from app_1.encrypt import encrypt, decrypt
-from notifs.models import BroadcastNotification
 
-  
+from app_1.email import verify_email, welcome_email, password_reset
+from app_1.encrypt import encrypt, decrypt
+from app_1.models import User
+from app_1.serializer import UserSerializer
+
+from cert_project import settings
 
 def index(request):
     '''
         Function to render the index page
     '''
 
-    
-    notifications = BroadcastNotification.objects.all()
-    
-    return render(request, 'content/index.html',{'notifications':notifications})
+    return render(request, 'content/index.html')
 
 def forget_password(request):
     '''
@@ -207,7 +202,7 @@ class VerifyAPI(APIView):
                         user.save()
                         print(user.is_verified)
                         messages.success(
-                            request, 
+                            request,
                             "You have successfully verified."
                         )
 
@@ -308,7 +303,7 @@ class LoginAPI(APIView):
 
                     messages.error(request, "Not verified")
                 messages.error(request, "Invalid password")
-            
+
             messages.error(request, "Email does not exist")
 
         return redirect('/login')
@@ -381,7 +376,6 @@ class ProfileAPI(APIView):
     model = User
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'clients/profile.html'
-    
 
     def get(self, request):
         '''
@@ -399,12 +393,12 @@ class ProfileAPI(APIView):
 
         user = User.objects.get(username = request.user)
         user.email = decrypt(user.email, settings.FIELD_ENCRYPTION_KEY)
-    
-        
+
+
         if request.method == 'POST':
 
             print ("post request")
-        
+
             user = User.objects.get(username = request.user)
 
             print (user)
@@ -427,6 +421,5 @@ class ProfileAPI(APIView):
 
             messages.success(request, "Profile Updates Successfully!")
             return redirect('/profile')
-        
-        return redirect('/profile')
 
+        return redirect('/profile')

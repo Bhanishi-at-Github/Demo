@@ -31,9 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    
+
     # django.contrib.admin
-    
+
     'channels',
     'daphne',
     'rest_framework',
@@ -44,19 +44,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-
     'app_1',
     'notifs',
-    
+
     'material',
     'material.admin',
-    'allauth',
+
     'cryptography',
 
+    'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    
+
 ]
 
 
@@ -119,7 +119,7 @@ ASGI_APPLICATION = 'cert_project.asgi.application'
 # Channels
 
 CHANNEL_LAYERS = {
-    
+
     'default': {
         'BACKEND': "channels.layers.InMemoryChannelLayer"
     }
@@ -191,13 +191,6 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
 
-# Media files
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'pictures') 
-# Directory where uploaded media is saved.
-
-MEDIA_URL = '/media/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -215,14 +208,3 @@ EMAIL_HOST_PASSWORD = 'vudd cqia hwfu trak'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
-
-# CELERY SETTINGS
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SELERLIZER = 'json'
-CELERY_TIMEZONE = 'Asia/Kolkata'
-
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

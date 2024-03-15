@@ -1,12 +1,17 @@
+'''
+Model for notification
+'''
+
 from django.db import models
 
 # Create your models here.
 
 class BroadcastNotification(models.Model):
-    
+
     '''
         Class to define the structure of the notification table
     '''
+
     message = models.CharField(
         max_length=200,
         null=False,
@@ -22,4 +27,8 @@ class BroadcastNotification(models.Model):
     )
 
     class Meta:
+        # pylint: disable=too-few-public-methods
+        '''
+        Meta Class for the model
+        '''
         ordering = ['-date']

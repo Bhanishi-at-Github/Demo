@@ -7,7 +7,7 @@
 from rest_framework import serializers
 from .models import User
 
-
+# pylint: disable=too-few-public-methods
 class UserSerializer(serializers.ModelSerializer):
 
     '''
