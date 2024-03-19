@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-q$32-09gs9*+d6h5@7vvxh==p%k5uvtt8*bmf^4f)f25$2^7ru'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-FERNET_KEY = b'CK6hkVdnTgBUk2B9SFaE5QJqcpuiIFKkMelVvULB43I='
+FERNET_KEY = os.getenv('FERNET_KEY')
 
 DEBUG = True
 
@@ -59,11 +64,9 @@ INSTALLED_APPS = [
 
 ]
 
-
-
 SITE_ID = 2
 
-FIELD_ENCRYPTION_KEY = 'KG-n6bvha1LhawBcFgdRiGOm7l60KEKClOY9PByfAms='
+FIELD_ENCRYPTION_KEY = os.getenv('FIELD_ENCRYPTION_KEY')
 
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -80,8 +83,6 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
-
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -202,8 +203,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'bhanishi.certainty@gmail.com'
-EMAIL_HOST_PASSWORD = 'vudd cqia hwfu trak'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 
 LOGIN_REDIRECT_URL = '/'
